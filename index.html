@@ -49,14 +49,18 @@ th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;lett
 .chk{display:flex;align-items:center;gap:6px;margin:0;padding:7px 12px;border:1px solid var(--br);border-radius:99px;color:var(--tx);font-size:14px;cursor:pointer}
 .chk input{width:auto;margin:0}.chk:has(input:checked){background:var(--pri2);border-color:var(--pri);color:var(--pri)}
 td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.wrap{position:relative}
+.lockbtn{position:absolute;top:12px;right:14px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--br);border-radius:50%;background:var(--card);font-size:15px;text-decoration:none;opacity:.6;transition:opacity .15s}
+.lockbtn:hover,.lockbtn:focus{opacity:1}
 </style>
 </head>
 <body>
 <div class="wrap">
+<a class="lockbtn" href="admin.html" title="Área restrita" aria-label="Área restrita">🔒</a>
 <header>
   <div class="hero">
     <h1>⛪ Cadastro de Membros</h1>
-    <p class="inv">Você é bem-vindo(a) à nossa família! - há sempre um lugar para você e os seus.</p>
+    <p class="inv">Você é bem-vindo(a) à nossa família! Venha como está — há sempre um lugar para você e os seus.</p>
     <p class="vs">“Alegrei-me quando me disseram: Vamos à Casa do Senhor!” <b>— Salmos 122:1</b></p>
   </div>
   </header>
@@ -66,6 +70,7 @@ td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
   <div id="formBox">
     <div class="card">
       <h2>Responsável pela família</h2>
+      <p class="note" style="margin:-6px 0 12px">Já se cadastrou e quer atualizar os dados? Preencha de novo com o <b>mesmo nome completo e a mesma data de nascimento</b>: os dados novos substituem os antigos.</p>
       <div style="margin-bottom:12px"><label>Nome da família *</label><input id="r_fam" placeholder="Nome do responsável pela família"></div>
       <div id="pResp"></div>
     </div>
@@ -82,9 +87,9 @@ td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
     </div>
     <div class="card">
       <h2>Proteção de dados (RGPD)</h2>
-      <label class="chk" style="border-radius:12px;align-items:flex-start;line-height:1.4"><input type="checkbox" id="rgpd"> <span>Li e aceito que a <b>[NOME DA IGREJA]</b> trate os meus dados pessoais e os dos familiares que cadastrei, para gestão de membros, contacto e organização dos ministérios. *</span></label>
+      <label class="chk" style="border-radius:12px;align-items:flex-start;line-height:1.4"><input type="checkbox" id="rgpd"> <span>Li e aceito que a <b>Igreja Evangélica Baptista de Guimarães</b> trate os meus dados pessoais e os dos familiares que cadastrei, para gestão de membros, contacto e organização dos ministérios. *</span></label>
       <details class="note" style="margin-top:10px"><summary>Saber mais sobre o tratamento dos meus dados</summary>
-        <p><b>Quem trata os dados:</b> Igreja Evangelica Baptista de Guimarães — contacto: iebaptista.guimaraes@gmail.com .</p>
+        <p><b>Quem trata os dados:</b> Igreja Evangélica Baptista de Guimarães — contacto: iebaptista.guimaraes@gmail.com.</p>
         <p><b>Que dados:</b> identificação, contacto, estado civil e dados da ligação à igreja (membro ou frequentador, conversão, batismo, ministérios). Estes últimos revelam convicção religiosa, uma categoria especial de dados, e só são tratados com o seu consentimento.</p>
         <p><b>Para quê e quem vê:</b> apenas para gestão de membros, contacto e organização dos ministérios. Só pessoas autorizadas da liderança têm acesso e os dados não são partilhados com terceiros. Ficam guardados enquanto for membro ou frequentador, ou até retirar o consentimento.</p>
         <p><b>Os seus direitos:</b> pode pedir acesso, correção, apagamento, limitação ou portabilidade dos dados, e retirar o consentimento a qualquer momento, pelo contacto acima. Pode também reclamar à autoridade de proteção de dados do seu país (em Portugal, a CNPD).</p>

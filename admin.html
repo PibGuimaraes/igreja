@@ -64,7 +64,7 @@ td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
   <div id="dashBody" class="hide">
   <div class="card">
     <div class="grid" id="filters"></div>
-    <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr" type="button">Limpar filtros</button><button class="btn ghost" id="csv" type="button">⬇ Baixar cópia (CSV)</button><button class="btn ghost" id="lock" type="button">🔒 Sair</button><span class="note" id="cntr"></span></div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr" type="button">Limpar filtros</button><button class="btn ghost" id="csv" type="button">⬇ Baixar cópia (CSV)</button><button class="btn ghost hide" id="purge" type="button">🧹 Apagar versões antigas</button><button class="btn ghost" id="lock" type="button">🔒 Sair</button><span class="note" id="cntr"></span><span class="note" id="oldNote"></span></div>
   </div>
   <div class="kpis" id="kpis"></div>
   <div class="grid" style="margin-bottom:14px">
@@ -85,10 +85,10 @@ td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
 <script type="module">
 import {firebaseConfig} from "./firebase-config.js";
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getFirestore,doc,setDoc,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,doc,setDoc,deleteDoc,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 const $=id=>document.getElementById(id);
-let db=null,unlocked=false,sub=false,familias=[],temFam=null,lastL=[];
+let db=null,unlocked=false,sub=false,familias=[],temFam=null,lastL=[],antigas=[],ocultas=0;
 const MIN=["Infantil","Mulheres","Homens","Casais","Louvor","Comunicação","Transmissão","EbD","Coral"];
 const FX=["0–12","13–17","18–29","30–49","50–64","65+"];
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -103,6 +103,15 @@ async function salvar(fam){await setDoc(doc(fdb,"familias",fam.id),fam)}
 
 const app=initializeApp(firebaseConfig),fdb=getFirestore(app),auth=getAuth(app);
 let unsub=null;
+const chave=m=>((m.nome||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim())+"|"+(m.nasc||"");
+function dedupe(arr){
+  const vistos=new Set(),out=[];antigas=[];ocultas=0;
+  [...arr].sort((a,b)=>(a.criadoEm||"")<(b.criadoEm||"")?1:-1).forEach(f=>{
+    const ms=(f.membros||[]).filter(m=>{const k=chave(m);if(vistos.has(k)){ocultas++;return false}vistos.add(k);return true});
+    if(ms.length)out.push({...f,membros:ms});else antigas.push(f);
+  });
+  return out;
+}
 async function entrar(){
   $("pwErr").textContent="";
   try{await signInWithEmailAndPassword(auth,$("em").value.trim(),$("pw").value);$("pw").value=""}
@@ -112,7 +121,7 @@ function lock(){signOut(auth)}
 onAuthStateChanged(auth,u=>{
   unlocked=!!u;$("gate").classList.toggle("hide",!!u);$("dashBody").classList.toggle("hide",!u);
   if(unsub){unsub();unsub=null}
-  if(u){unsub=onSnapshot(collection(fdb,"familias"),sn=>{familias=sn.docs.map(x=>({...x.data(),id:x.id}));renderDash()},()=>{$("pwErr").textContent="Este usuário não tem permissão.";signOut(auth)})}
+  if(u){unsub=onSnapshot(collection(fdb,"familias"),sn=>{familias=dedupe(sn.docs.map(x=>({...x.data(),id:x.id})));renderDash()},()=>{$("pwErr").textContent="Este usuário não tem permissão.";signOut(auth)})}
   else familias=[];
 });
 $("enter").onclick=entrar;$("pw").onkeydown=e=>{if(e.key==="Enter")entrar()};$("lock").onclick=lock;
@@ -124,6 +133,10 @@ const F=[["nome","Nome","t"],["familia","Família","t"],["email","E-mail","t"],[
 $("filters").innerHTML=F.map(([k,l,t])=>`<div><label>${l}</label>${t==="t"?`<input id="f_${k}" placeholder="Buscar">`:`<select id="f_${k}"><option value="">Todos</option></select>`}</div>`).join("");
 F.forEach(([k,,t])=>$("f_"+k)[t==="t"?"oninput":"onchange"]=renderDash);
 $("clr").onclick=()=>{F.forEach(([k])=>$("f_"+k).value="");renderDash()};
+$("purge").onclick=async()=>{
+  if(!antigas.length||!confirm("Apagar "+antigas.length+" cadastro(s) antigo(s) para sempre? Os mais recentes ficam."))return;
+  try{for(const f of antigas)await deleteDoc(doc(fdb,"familias",f.id))}catch(e){alert("Não foi possível apagar.")}
+};
 $("csv").onclick=()=>{
   const H=["Nome","Família","Parentesco","Gênero","Nascimento","Idade","Estado civil","Nacionalidade","Identificação","Ingresso","Quer ser membro","E-mail","Telemóvel","Tem WhatsApp","Outro WhatsApp","Ano de conversão","Data de batismo","Serve","Interesse em servir"];
   const cell=v=>{v=String(v??"");if(/^[=@\t\r]/.test(v)||(/^[+\-]/.test(v)&&!/^[+\-][\d\s().-]*$/.test(v)))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'};
@@ -162,6 +175,7 @@ function renderDash(){
   $("th").innerHTML="<tr>"+COLS.map(c=>`<th>${c[0]}</th>`).join("")+"</tr>";
   $("tb").innerHTML=L.map(p=>"<tr>"+COLS.map(c=>`<td>${c[2]?c[1](p):esc(c[1](p)??"")||"—"}</td>`).join("")+"</tr>").join("");
   $("cntr").textContent=`${L.length} de ${all.length} pessoas`;
+  $("purge").classList.toggle("hide",!antigas.length);$("oldNote").textContent=ocultas?ocultas+" versão(ões) antiga(s) de pessoas atualizadas (ocultas)":"";
   $("empty").textContent=L.length?"":"Nenhum resultado para estes filtros.";
 }
 
