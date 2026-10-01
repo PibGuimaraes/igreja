@@ -6,179 +6,230 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Painel da Igreja</title>
 <style>
-:root{--bg:#f5f3ee;--card:#fff;--tx:#1f2a37;--mut:#6b7280;--br:#e5e1d8;--pri:#3b5bdb;--pri2:#e7ecff;--ok:#2f9e6b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161a;--card:#1d2026;--tx:#eceef2;--mut:#9aa1ad;--br:#2b2f37;--pri:#7c93ff;--pri2:#252b44;--ok:#4cc38a}}
-:root[data-theme="dark"]{--bg:#14161a;--card:#1d2026;--tx:#eceef2;--mut:#9aa1ad;--br:#2b2f37;--pri:#7c93ff;--pri2:#252b44;--ok:#4cc38a}
+:root{--bg:#f6f5f1;--card:#fff;--tx:#1f2a37;--mut:#6b7280;--br:#e8e4db;--pri:#3b5bdb;--pri2:#eaeefe;--ok:#2f9e6b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161a;--card:#1c1f25;--tx:#eceef2;--mut:#9aa1ad;--br:#2a2e36;--pri:#7c93ff;--pri2:#242a44;--ok:#4cc38a}}
+:root[data-theme="dark"]{--bg:#14161a;--card:#1c1f25;--tx:#eceef2;--mut:#9aa1ad;--br:#2a2e36;--pri:#7c93ff;--pri2:#242a44;--ok:#4cc38a}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
-h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 12px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.tabs{display:flex;gap:6px;background:var(--card);border:1px solid var(--br);border-radius:12px;padding:4px}
-.tabs button{border:0;background:none;color:var(--mut);padding:8px 14px;border-radius:9px;font:inherit;cursor:pointer}
-.tabs button.on{background:var(--pri);color:#fff}
-.card{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:18px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-label{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
-input,select{width:100%;padding:10px 12px;border:1px solid var(--br);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 14px 40px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:19px;margin:0}.sub{margin:2px 0 0;color:var(--mut);font-size:12px}
+h2{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:0 0 10px}
+nav{display:flex;gap:6px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--br);background:var(--card);color:var(--tx);padding:6px 12px;border-radius:8px;font:inherit;font-size:13px;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--pri);color:var(--pri)}.btn.on{background:var(--pri2);color:var(--pri);border-color:var(--pri2)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn.pri:hover{color:#fff;opacity:.9}
+.card{background:var(--card);border:1px solid var(--br);border-radius:12px;padding:14px;margin-bottom:10px}
+.gate{max-width:340px;margin:40px auto}
+input,select{width:100%;padding:5px 8px;border:1px solid var(--br);border-radius:7px;background:var(--bg);color:var(--tx);font:inherit;font-size:12.5px}
+.gate input{padding:8px 10px;font-size:14px;margin-bottom:8px}
 input:focus,select:focus{outline:2px solid var(--pri);border-color:transparent}
-.btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:11px 18px;font:inherit;font-weight:600;cursor:pointer}
-.btn.ghost{background:var(--pri2);color:var(--pri)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.choice button{flex:1;min-width:120px}
-.choice button.on{background:var(--pri);color:#fff}
-.rel{border:1px dashed var(--br);border-radius:12px;padding:14px;margin-bottom:12px;position:relative}
-.rel .x{position:absolute;right:10px;top:8px;background:none;border:0;color:var(--mut);cursor:pointer;font-size:18px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
-.kpi{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:16px}
-.kpi b{display:block;font-size:30px;line-height:1.1}.kpi span{color:var(--mut);font-size:13px}
-.bar{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:14px}
-.bar i{flex:0 0 96px;color:var(--mut);font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar div{flex:1;height:10px;background:var(--pri2);border-radius:6px;overflow:hidden}
-.bar div u{display:block;height:100%;background:var(--pri);border-radius:6px}
-.bar em{font-style:normal;width:28px;text-align:right}
-.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--br);white-space:nowrap}
-th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-.tag{padding:2px 9px;border-radius:99px;font-size:12px;background:var(--pri2);color:var(--pri)}
-.tag.c{background:#fff3e0;color:#b76e00}
-.ok{text-align:center;padding:30px 10px}.ok h2{color:var(--ok);font-size:22px}
-.note{font-size:13px;color:var(--mut);margin-top:8px}
+label{display:block;font-size:10.5px;color:var(--mut);margin-bottom:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin-bottom:10px}
+.kpi{display:block;background:var(--card);border:1px solid var(--br);border-left:3px solid var(--pri);border-radius:12px;padding:10px 12px;color:inherit;text-decoration:none}
+a.kpi:hover{border-color:var(--pri);box-shadow:0 2px 8px rgba(59,91,219,.13)}
+.kpi b{display:block;font-size:22px;line-height:1.15}.kpi span{color:var(--mut);font-size:11px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.charts .card{margin:0}
+a.bar{display:flex;align-items:center;gap:8px;margin:2px -6px;padding:3px 6px;border-radius:6px;color:inherit;text-decoration:none;font-size:12px}
+a.bar:hover{background:var(--pri2)}
+.bar i{flex:0 0 112px;color:var(--mut);font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar div{flex:1;height:7px;background:var(--pri2);border-radius:5px;overflow:hidden}.bar u{display:block;height:100%;background:var(--pri);border-radius:5px}
+.bar em{font-style:normal;width:26px;text-align:right;font-weight:600}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fl summary{list-style:none}.fl summary::-webkit-details-marker{display:none}
+#filters{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
+.chip{display:inline-flex;align-items:center;background:var(--pri2);color:var(--pri);border-radius:99px;padding:2px 4px 2px 10px;font-size:12px}
+.chip button{border:0;background:none;color:inherit;cursor:pointer;font-size:15px;line-height:1;padding:0 6px}
+.scroll{max-height:68vh;overflow:auto;border:1px solid var(--br);border-radius:10px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{text-align:left;padding:6px 9px;border-bottom:1px solid var(--br);white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+th{position:sticky;top:0;background:var(--card);color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;z-index:1}
+tbody tr:hover td{background:var(--pri2)}
+.tag{padding:1px 8px;border-radius:99px;font-size:11px;background:var(--pri2);color:var(--pri)}.tag.c{background:#fff3e0;color:#b76e00}
+.note{font-size:12px;color:var(--mut)}.err{color:#d33}
 .hide{display:none!important}
-.hero h1{font-size:24px}.inv{margin:6px 0 2px;color:var(--tx)}.vs{margin:0;font-style:italic;color:var(--mut);font-size:14px}.vs b{font-style:normal;color:var(--pri)}
-.sub{margin:16px 0 8px;font-weight:600;color:var(--tx)}.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chk{display:flex;align-items:center;gap:6px;margin:0;padding:7px 12px;border:1px solid var(--br);border-radius:99px;color:var(--tx);font-size:14px;cursor:pointer}
-.chk input{width:auto;margin:0}.chk:has(input:checked){background:var(--pri2);border-color:var(--pri);color:var(--pri)}
-td{max-width:260px;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="hero"><h1>📊 Painel da Igreja</h1><p class="vs">Área restrita — cadastros recebidos</p></div>
-  </header>
+  <div><h1>📊 Painel da Igreja</h1><p class="sub" id="sub">Área restrita</p></div>
+  <nav id="nav" class="hide"><a class="btn on" id="nPainel" href="#painel">Painel</a><a class="btn" id="nMem" href="#membros">Membros</a><button class="btn" id="lock" type="button">🔒 Sair</button></nav>
+</header>
 
-
-<section id="vDash">
-  <div id="gate" class="card" style="max-width:380px;margin:0 auto"><h2>🔒 Área restrita</h2><p class="note">Entre com o e-mail e a senha de administrador.</p><input id="em" type="email" placeholder="E-mail" style="margin-bottom:8px"><input id="pw" type="password" placeholder="Senha" autocomplete="off"><div class="row" style="margin-top:12px"><button class="btn" id="enter" type="button">Entrar</button><span id="pwErr" class="note" style="color:#d33"></span></div></div>
-  <div id="dashBody" class="hide">
-  <div class="card">
-    <div class="grid" id="filters"></div>
-    <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr" type="button">Limpar filtros</button><button class="btn ghost" id="csv" type="button">⬇ Baixar cópia (CSV)</button><button class="btn ghost hide" id="purge" type="button">🧹 Apagar versões antigas</button><button class="btn ghost" id="lock" type="button">🔒 Sair</button><span class="note" id="cntr"></span><span class="note" id="oldNote"></span></div>
-  </div>
-  <div class="kpis" id="kpis"></div>
-  <div class="grid" style="margin-bottom:14px">
-    <div class="card"><h2>Gênero</h2><div id="cGen"></div></div>
-    <div class="card"><h2>Identificação</h2><div id="cSit"></div></div>
-    <div class="card"><h2>Faixa etária</h2><div id="cAge"></div></div>
-    <div class="card"><h2>Nacionalidade</h2><div id="cNac"></div></div>
-    <div class="card"><h2>Servem nos ministérios</h2><div id="cSrv"></div></div>
-    <div class="card"><h2>Interesse em servir</h2><div id="cInt"></div></div>
-    <div class="card"><h2>Estado civil</h2><div id="cEst"></div></div>
-    <div class="card"><h2>Como ingressaram</h2><div id="cIng"></div></div>
-  </div>
-  <div class="card"><h2>Pessoas</h2><div class="scroll"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div><p class="note" id="empty"></p></div>
-  </div>
+<section id="gate" class="card gate">
+  <h2>🔒 Área restrita</h2>
+  <p class="note">Entre com o e-mail e a senha de administrador.</p>
+  <input id="em" type="email" placeholder="E-mail" autocomplete="username">
+  <input id="pw" type="password" placeholder="Senha" autocomplete="current-password">
+  <div class="row"><button class="btn pri" id="enter" type="button">Entrar</button><span id="pwErr" class="note err"></span></div>
 </section>
+
+<main id="app" class="hide">
+  <section id="vPainel">
+    <div class="kpis" id="kpis"></div>
+    <div class="charts">
+      <div class="card"><h2>Gênero</h2><div id="cGen"></div></div>
+      <div class="card"><h2>Identificação</h2><div id="cSit"></div></div>
+      <div class="card"><h2>Faixa etária</h2><div id="cAge"></div></div>
+      <div class="card"><h2>Nacionalidade</h2><div id="cNac"></div></div>
+      <div class="card"><h2>Estado civil</h2><div id="cEst"></div></div>
+      <div class="card"><h2>Como ingressaram</h2><div id="cIng"></div></div>
+      <div class="card"><h2>Servem nos ministérios</h2><div id="cSrv"></div></div>
+      <div class="card"><h2>Querem servir</h2><div id="cInt"></div></div>
+    </div>
+    <div class="row" style="margin-top:12px"><a class="btn pri" href="#membros">Ver todos os membros →</a><button class="btn hide" id="purge" type="button">🧹 Apagar versões antigas</button><span class="note" id="oldNote"></span></div>
+  </section>
+
+  <section id="vMem" class="hide">
+    <div class="top">
+      <div class="row"><a class="btn" href="#painel">← Painel</a><span class="note" id="cntr"></span></div>
+      <div class="row"><button class="btn" id="csv" type="button">⬇ Planilha</button><button class="btn" id="mails" type="button">✉ E-mails</button></div>
+    </div>
+    <div id="chips" class="row" style="margin-bottom:8px"></div>
+    <details class="fl" style="margin-bottom:8px">
+      <summary class="btn">⚙ Filtros</summary>
+      <div class="card" style="margin-top:8px"><div id="filters"></div><div style="margin-top:8px"><button class="btn" id="clr" type="button">Limpar filtros</button></div></div>
+    </details>
+    <div class="scroll"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+    <p class="note" id="empty"></p>
+  </section>
+</main>
 </div>
 
 <script type="module">
 import {firebaseConfig} from "./firebase-config.js";
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getFirestore,doc,setDoc,deleteDoc,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,collection,onSnapshot,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 const $=id=>document.getElementById(id);
-let db=null,unlocked=false,sub=false,familias=[],temFam=null,lastL=[],antigas=[],ocultas=0;
-const MIN=["Infantil","Mulheres","Homens","Casais","Louvor","Comunicação","Transmissão","EbD","Coral"];
-const FX=["0–12","13–17","18–29","30–49","50–64","65+"];
-const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const idade=d=>{if(!d)return null;const n=new Date(d),h=new Date();let a=h.getFullYear()-n.getFullYear();if(h<new Date(h.getFullYear(),n.getMonth(),n.getDate()))a--;return a>=0?a:null};
-const fxOf=a=>a===null?"":a<=12?FX[0]:a<=17?FX[1]:a<=29?FX[2]:a<=49?FX[3]:a<=64?FX[4]:FX[5];
-const fdata=d=>d?d.split("-").reverse().join("/"):"";
-
-/* ---------- armazenamento ---------- */
-function lsGet(){try{return JSON.parse(localStorage.getItem("familias")||"[]")}catch(e){return[]}}
-function lsSet(a){try{localStorage.setItem("familias",JSON.stringify(a))}catch(e){}}
-async function salvar(fam){await setDoc(doc(fdb,"familias",fam.id),fam)}
-
 const app=initializeApp(firebaseConfig),fdb=getFirestore(app),auth=getAuth(app);
-let unsub=null;
-const chave=m=>((m.nome||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim())+"|"+(m.nasc||"");
+const MIN=["Infantil","Mulheres","Homens","Casais","Louvor","Comunicação","Transmissão","EbD","Coral"];
+const FX=["Crianças (até 12)","Adolescentes (13–17)","Jovens (18–29)","Adultos (30–59)","Idosos (60+)"];
+const S=v=>String(v??"");
+const esc=s=>S(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const idade=d=>{if(!d)return null;const n=new Date(d),h=new Date();let a=h.getFullYear()-n.getFullYear();if(h<new Date(h.getFullYear(),n.getMonth(),n.getDate()))a--;return a>=0?a:null};
+const fxOf=a=>a===null?"":a<=12?FX[0]:a<=17?FX[1]:a<=29?FX[2]:a<=59?FX[3]:FX[4];
+const fdata=d=>d?S(d).split("-").reverse().join("/"):"";
+let unlocked=false,todas=[],familias=[],all=[],antigas=[],ocultas=0,flt={},lastL=[],unsub=null,emMem=false;
+
+/* ---------- dados ---------- */
+const chave=m=>S(m.nome).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim()+"|"+S(m.nasc);
 function dedupe(arr){
   const vistos=new Set(),out=[];antigas=[];ocultas=0;
-  [...arr].sort((a,b)=>(a.criadoEm||"")<(b.criadoEm||"")?1:-1).forEach(f=>{
-    const ms=(f.membros||[]).filter(m=>{const k=chave(m);if(vistos.has(k)){ocultas++;return false}vistos.add(k);return true});
+  [...arr].sort((a,b)=>S(a.criadoEm)<S(b.criadoEm)?1:-1).forEach(f=>{
+    const ms=(Array.isArray(f.membros)?f.membros:[]).filter(m=>{const k=chave(m);if(vistos.has(k)){ocultas++;return false}vistos.add(k);return true});
     if(ms.length)out.push({...f,membros:ms});else antigas.push(f);
   });
   return out;
 }
+const pessoas=()=>familias.flatMap(f=>f.membros.map(m=>{
+  const a=idade(m.nasc),serve=Array.isArray(m.serve)?m.serve:[],interesse=Array.isArray(m.interesse)?m.interesse:[];
+  return{...m,familia:S(f.familia),idade:a,faixa:fxOf(a),batAno:m.batismo?S(m.batismo).slice(0,4):"",serve,interesse,batizado:m.batismo?"Sim":"Não",servindo:serve.length?"Sim":"Não",temInteresse:interesse.length?"Sim":"Não"};
+}));
+
+/* ---------- filtros ---------- */
+const F=[["nome","Nome","t"],["familia","Família","t"],["email","E-mail","t"],["tel","Telemóvel","t"],["whatsnum","Outro WhatsApp","t"],["genero","Gênero","s"],["estcivil","Estado civil","s"],["nac","Nacionalidade","s"],["situacao","Identificação","s"],["ingresso","Como ingressou","s"],["querMembro","Deseja ser membro","s"],["parentesco","Parentesco","s"],["faixa","Faixa etária","s"],["whats","Tem WhatsApp","s"],["conversao","Ano de conversão","s"],["batAno","Ano de batismo","s"],["serve","Serve no ministério","s"],["interesse","Interesse em servir","s"]];
+const LBL={...Object.fromEntries(F.map(f=>[f[0],f[1]])),batizado:"Batizado",servindo:"Servindo",temInteresse:"Quer servir"};
+const TXT=new Set(F.filter(f=>f[2]==="t").map(f=>f[0]));
+const temK=k=>Object.prototype.hasOwnProperty.call(LBL,k);
+$("filters").innerHTML=F.map(([k,l,t])=>`<div><label>${l}</label>${t==="t"?`<input id="f_${k}" placeholder="Buscar">`:`<select id="f_${k}"><option value="">Todos</option></select>`}</div>`).join("");
+F.forEach(([k,,t])=>$("f_"+k).addEventListener(t==="t"?"input":"change",e=>{const v=e.target.value;if(v.trim())flt[k]=v;else delete flt[k];syncHash();renderMem()}));
+function syncHash(){const q=new URLSearchParams(flt).toString();history.replaceState(null,"","#membros"+(q?"?"+q:""))}
+function filtrar(){
+  return all.filter(p=>Object.entries(flt).every(([k,v])=>TXT.has(k)?S(p[k]).toLowerCase().includes(v.trim().toLowerCase()):[].concat(p[k]??[]).map(String).includes(v)));
+}
+
+/* ---------- rotas (Painel / Membros) ---------- */
+function rota(){
+  if(!unlocked)return;
+  const [nome,q=""]=location.hash.slice(1).split("?");
+  emMem=nome==="membros";flt={};
+  if(emMem)new URLSearchParams(q).forEach((v,k)=>{if(temK(k)&&v)flt[k]=v});
+  $("vPainel").classList.toggle("hide",emMem);$("vMem").classList.toggle("hide",!emMem);
+  $("nPainel").classList.toggle("on",!emMem);$("nMem").classList.toggle("on",emMem);
+  $("sub").textContent=all.length+" pessoas em "+familias.length+" famílias";
+  emMem?renderMem():renderPainel();
+}
+window.addEventListener("hashchange",rota);
+
+/* ---------- painel ---------- */
+const q1=(k,v)=>"?"+k+"="+encodeURIComponent(v);
+function bars(el,key,obj,max=6,keep=false){
+  let e=Object.entries(obj);if(!keep)e=e.sort((a,b)=>b[1]-a[1]).slice(0,max);
+  const mx=Math.max(1,...e.map(x=>x[1]));
+  $(el).innerHTML=e.some(x=>x[1])?e.map(([k,v])=>`<a class="bar" href="#membros${q1(key,k)}" title="${esc(k)}"><i>${esc(k)}</i><div><u style="width:${v/mx*100}%"></u></div><em>${v}</em></a>`).join(""):'<p class="note">Sem dados</p>';
+}
+function renderPainel(){
+  const L=all,ages=L.map(p=>p.idade).filter(a=>a!==null),med=ages.length?Math.round(ages.reduce((a,b)=>a+b,0)/ages.length):"—",n=f=>L.filter(f).length;
+  const K=[[L.length,"Pessoas",""],[new Set(L.map(p=>p.familia.toLowerCase())).size,"Famílias",null],[n(p=>p.situacao==="Membro"),"Membros",q1("situacao","Membro")],[n(p=>p.situacao==="Frequentador"),"Frequentadores",q1("situacao","Frequentador")],[med,"Idade média",null],[n(p=>p.faixa===FX[0]),"Crianças",q1("faixa",FX[0])],[n(p=>p.faixa===FX[4]),"Idosos",q1("faixa",FX[4])],[n(p=>p.batizado==="Sim"),"Batizados",q1("batizado","Sim")],[n(p=>p.servindo==="Sim"),"Servindo",q1("servindo","Sim")],[n(p=>p.temInteresse==="Sim"),"Querem servir",q1("temInteresse","Sim")],[n(p=>p.querMembro==="Sim"),"Querem ser membros",q1("querMembro","Sim")]];
+  $("kpis").innerHTML=K.map(([v,l,h])=>h===null?`<div class="kpi"><b>${v}</b><span>${l}</span></div>`:`<a class="kpi" href="#membros${h}"><b>${v}</b><span>${l}</span></a>`).join("");
+  const cnt=fn=>L.reduce((o,p)=>{[].concat(fn(p)).filter(Boolean).forEach(k=>o[k]=(o[k]||0)+1);return o},{});
+  bars("cGen","genero",cnt(p=>p.genero));bars("cSit","situacao",cnt(p=>p.situacao));
+  bars("cAge","faixa",{...Object.fromEntries(FX.map(x=>[x,0])),...cnt(p=>p.faixa)},6,true);
+  bars("cNac","nac",cnt(p=>p.nac));bars("cEst","estcivil",cnt(p=>p.estcivil));bars("cIng","ingresso",cnt(p=>p.ingresso));
+  bars("cSrv","serve",cnt(p=>p.serve),9);bars("cInt","interesse",cnt(p=>p.interesse),9);
+  $("purge").classList.toggle("hide",!antigas.length);
+  $("oldNote").textContent=ocultas?ocultas+" versão(ões) antiga(s) de pessoas atualizadas (ocultas)":"";
+}
+
+/* ---------- membros ---------- */
+const COLS=[["Nome",p=>esc(p.nome)],["Família",p=>esc(p.familia)],["Parentesco",p=>esc(p.parentesco)],["Gênero",p=>esc(p.genero)],["Estado civil",p=>esc(p.estcivil)],["Idade",p=>p.idade],["Nacionalidade",p=>esc(p.nac)],["Identificação",p=>p.situacao?`<span class="tag${p.situacao==="Frequentador"?" c":""}">${esc(p.situacao)}</span>`:""],["Ingresso",p=>esc(p.ingresso)],["Quer ser membro",p=>esc(p.querMembro)],["E-mail",p=>esc(p.email)],["Telemóvel",p=>esc(p.tel)],["WhatsApp",p=>esc(p.whats==="Não"?(p.whatsnum?"Outro: "+p.whatsnum:"Não"):p.whats)],["Conversão",p=>esc(p.conversao)],["Batismo",p=>esc(fdata(p.batismo))],["Serve",p=>esc(p.serve.join(", "))],["Interesse",p=>esc(p.interesse.join(", "))]];
+function renderMem(){
+  F.filter(f=>f[2]==="s").forEach(([k])=>{
+    const el=$("f_"+k);
+    let v=[...new Set(all.flatMap(p=>[].concat(p[k]??[])).map(String).filter(Boolean))];
+    if(flt[k]&&!v.includes(flt[k]))v.push(flt[k]);
+    v=k==="faixa"?FX.filter(x=>v.includes(x)):(k==="serve"||k==="interesse")?MIN.filter(x=>v.includes(x)):v.sort((a,b)=>a.localeCompare(b,"pt",{numeric:true}));
+    el.innerHTML='<option value="">Todos</option>'+v.map(x=>`<option>${esc(x)}</option>`).join("");
+  });
+  F.forEach(([k])=>{const el=$("f_"+k),v=flt[k]||"";if(el.value!==v)el.value=v});
+  const L=filtrar();lastL=L;
+  $("chips").innerHTML=Object.entries(flt).map(([k,v])=>`<span class="chip">${esc(LBL[k])}: ${esc(v)}<button type="button" data-k="${esc(k)}" title="Remover">×</button></span>`).join("");
+  $("cntr").textContent=L.length+" de "+all.length+" pessoas";
+  $("th").innerHTML="<tr>"+COLS.map(c=>`<th>${c[0]}</th>`).join("")+"</tr>";
+  $("tb").innerHTML=L.map(p=>"<tr>"+COLS.map(c=>`<td>${c[1](p)||"—"}</td>`).join("")+"</tr>").join("");
+  $("empty").textContent=L.length?"":"Nenhuma pessoa encontrada com estes filtros.";
+}
+$("chips").addEventListener("click",e=>{const k=e.target.dataset&&e.target.dataset.k;if(k&&temK(k)){delete flt[k];syncHash();renderMem()}});
+$("clr").onclick=()=>{flt={};syncHash();renderMem()};
+
+/* ---------- planilhas (só da lista mostrada) ---------- */
+const baixar=(nome,txt)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/csv;charset=utf-8"}));a.download=nome;document.body.appendChild(a);a.click();a.remove()};
+const nomeArq=pre=>pre+(Object.keys(flt).length?"-filtrado-":"-")+new Date().toISOString().slice(0,10)+".csv";
+const cell=v=>{v=S(v);if(/^[=@\t\r]/.test(v)||(/^[+\-]/.test(v)&&!/^[+\-][\d\s().-]*$/.test(v)))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'};
+$("csv").onclick=()=>{
+  const H=["Nome","Família","Parentesco","Gênero","Nascimento","Idade","Estado civil","Nacionalidade","Identificação","Ingresso","Quer ser membro","E-mail","Telemóvel","Tem WhatsApp","Outro WhatsApp","Ano de conversão","Data de batismo","Serve","Interesse em servir"];
+  const rows=lastL.map(p=>[p.nome,p.familia,p.parentesco,p.genero,p.nasc,p.idade,p.estcivil,p.nac,p.situacao,p.ingresso,p.querMembro,p.email,p.tel,p.whats,p.whatsnum,p.conversao,p.batismo,p.serve.join(", "),p.interesse.join(", ")]);
+  baixar(nomeArq("membros"),"\ufeff"+[H,...rows].map(x=>x.map(cell).join(";")).join("\r\n"));
+};
+$("mails").onclick=()=>{
+  const vistos=new Set(),lista=[];
+  lastL.forEach(p=>{const e=S(p.email).trim().toLowerCase();if(/^[a-z0-9][a-z0-9._%+\-]*@[a-z0-9.\-]+\.[a-z]{2,}$/.test(e)&&!vistos.has(e)){vistos.add(e);lista.push(e)}});
+  if(!lista.length){alert("Nenhum e-mail na lista atual.");return}
+  baixar(nomeArq("emails"),"\ufeff"+["E-mail",...lista].join("\r\n"));
+};
+$("purge").onclick=async()=>{
+  if(!antigas.length||!confirm("Apagar "+antigas.length+" cadastro(s) antigo(s) para sempre? Os mais recentes ficam."))return;
+  try{for(const f of antigas)await deleteDoc(doc(fdb,"familias",f.id))}catch(e){alert("Não foi possível apagar.")}
+};
+
+/* ---------- login ---------- */
 async function entrar(){
   $("pwErr").textContent="";
   try{await signInWithEmailAndPassword(auth,$("em").value.trim(),$("pw").value);$("pw").value=""}
   catch(e){$("pwErr").textContent="E-mail ou senha incorretos."}
 }
-function lock(){signOut(auth)}
+$("enter").onclick=entrar;$("pw").onkeydown=e=>{if(e.key==="Enter")entrar()};
+$("lock").onclick=()=>{history.replaceState(null,"",location.pathname);signOut(auth)};
 onAuthStateChanged(auth,u=>{
-  unlocked=!!u;$("gate").classList.toggle("hide",!!u);$("dashBody").classList.toggle("hide",!u);
+  unlocked=!!u;
+  $("gate").classList.toggle("hide",!!u);$("app").classList.toggle("hide",!u);$("nav").classList.toggle("hide",!u);
   if(unsub){unsub();unsub=null}
-  if(u){unsub=onSnapshot(collection(fdb,"familias"),sn=>{familias=dedupe(sn.docs.map(x=>({...x.data(),id:x.id})));renderDash()},()=>{$("pwErr").textContent="Este usuário não tem permissão.";signOut(auth)})}
-  else familias=[];
+  if(u){unsub=onSnapshot(collection(fdb,"familias"),sn=>{todas=sn.docs.map(x=>({...x.data(),id:x.id}));familias=dedupe(todas);all=pessoas();rota()},()=>{$("pwErr").textContent="Este usuário não tem permissão.";signOut(auth)})}
+  else{todas=[];familias=[];all=[];$("sub").textContent="Área restrita"}
 });
-$("enter").onclick=entrar;$("pw").onkeydown=e=>{if(e.key==="Enter")entrar()};$("lock").onclick=lock;
-async function init(){}
-
-/* ---------- dashboard ---------- */
-const F=[["nome","Nome","t"],["familia","Família","t"],["email","E-mail","t"],["tel","Telemóvel","t"],
-["genero","Gênero","s"],["estcivil","Estado civil","s"],["nac","Nacionalidade","s"],["situacao","Identificação","s"],["ingresso","Como ingressou","s"],["querMembro","Deseja ser membro","s"],["parentesco","Parentesco","s"],["faixa","Faixa etária","s"],["whats","Tem WhatsApp","s"],["whatsnum","Outro WhatsApp","t"],["conversao","Ano de conversão","s"],["batAno","Ano de batismo","s"],["serve","Serve no ministério","s"],["interesse","Interesse em servir","s"]];
-$("filters").innerHTML=F.map(([k,l,t])=>`<div><label>${l}</label>${t==="t"?`<input id="f_${k}" placeholder="Buscar">`:`<select id="f_${k}"><option value="">Todos</option></select>`}</div>`).join("");
-F.forEach(([k,,t])=>$("f_"+k)[t==="t"?"oninput":"onchange"]=renderDash);
-$("clr").onclick=()=>{F.forEach(([k])=>$("f_"+k).value="");renderDash()};
-$("purge").onclick=async()=>{
-  if(!antigas.length||!confirm("Apagar "+antigas.length+" cadastro(s) antigo(s) para sempre? Os mais recentes ficam."))return;
-  try{for(const f of antigas)await deleteDoc(doc(fdb,"familias",f.id))}catch(e){alert("Não foi possível apagar.")}
-};
-$("csv").onclick=()=>{
-  const H=["Nome","Família","Parentesco","Gênero","Nascimento","Idade","Estado civil","Nacionalidade","Identificação","Ingresso","Quer ser membro","E-mail","Telemóvel","Tem WhatsApp","Outro WhatsApp","Ano de conversão","Data de batismo","Serve","Interesse em servir"];
-  const cell=v=>{v=String(v??"");if(/^[=@\t\r]/.test(v)||(/^[+\-]/.test(v)&&!/^[+\-][\d\s().-]*$/.test(v)))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'};
-  const rows=lastL.map(p=>[p.nome,p.familia,p.parentesco,p.genero,p.nasc,p.idade,p.estcivil,p.nac,p.situacao,p.ingresso,p.querMembro,p.email,p.tel,p.whats,p.whatsnum,p.conversao,p.batismo,p.serve.join(", "),p.interesse.join(", ")]);
-  const csv="\ufeff"+[H,...rows].map(x=>x.map(cell).join(";")).join("\r\n");
-  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-  a.download="cadastros-igreja-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();a.remove();
-};
-const pessoas=()=>familias.flatMap(f=>(f.membros||[]).map(m=>{const a=idade(m.nasc);return{...m,familia:f.familia,idade:a,faixa:fxOf(a),batAno:m.batismo?m.batismo.slice(0,4):"",serve:m.serve||[],interesse:m.interesse||[]}}));
-function bars(el,obj,max=6,keep){
-  let e=Object.entries(obj);if(!keep)e=e.sort((a,b)=>b[1]-a[1]).slice(0,max);
-  const mx=Math.max(1,...e.map(x=>x[1]));
-  $(el).innerHTML=e.some(x=>x[1])?e.map(([k,v])=>`<div class="bar"><i title="${esc(k)}">${esc(k)}</i><div><u style="width:${v/mx*100}%"></u></div><em>${v}</em></div>`).join(""):'<p class="note">Sem dados</p>';
-}
-const COLS=[["Nome",p=>p.nome],["Família",p=>p.familia],["Parentesco",p=>p.parentesco],["Gênero",p=>p.genero],["Estado civil",p=>p.estcivil],["Idade",p=>p.idade],["Nacionalidade",p=>p.nac],["Identificação",p=>`<span class="tag${p.situacao==="Frequentador"?" c":""}">${esc(p.situacao)}</span>`,1],["Ingresso",p=>p.ingresso],["Quer ser membro",p=>p.querMembro],["E-mail",p=>p.email],["Telemóvel",p=>p.tel],["WhatsApp",p=>p.whats==="Não"?(p.whatsnum?"Outro: "+p.whatsnum:"Não"):p.whats],["Conversão",p=>p.conversao],["Batismo",p=>fdata(p.batismo)],["Serve",p=>p.serve.join(", ")],["Interesse",p=>p.interesse.join(", ")]];
-function renderDash(){
-  if(!unlocked)return;
-  const all=pessoas();
-  F.filter(f=>f[2]==="s").forEach(([k])=>{
-    const el=$("f_"+k),cur=el.value;
-    let v=[...new Set(all.flatMap(p=>[].concat(p[k]||[])).map(String).filter(Boolean))];
-    v=k==="faixa"?FX.filter(x=>v.includes(x)):k==="serve"||k==="interesse"?MIN.filter(x=>v.includes(x)):v.sort((a,b)=>a.localeCompare(b,"pt",{numeric:true}));
-    el.innerHTML='<option value="">Todos</option>'+v.map(x=>`<option${x===cur?" selected":""}>${esc(x)}</option>`).join("");
-  });
-  const L=all.filter(p=>F.every(([k,,t])=>{
-    const v=$("f_"+k).value;if(!v)return true;
-    return t==="t"?String(p[k]||"").toLowerCase().includes(v.toLowerCase()):[].concat(p[k]||[]).map(String).includes(v);
-  }));
-  lastL=L;
-  const cnt=fn=>L.reduce((o,p)=>{[].concat(fn(p)).filter(Boolean).forEach(k=>o[k]=(o[k]||0)+1);return o},{});
-  const ages=L.map(p=>p.idade).filter(a=>a!==null),med=ages.length?Math.round(ages.reduce((a,b)=>a+b,0)/ages.length):"—";
-  $("kpis").innerHTML=[[L.length,"Pessoas"],[new Set(L.map(p=>p.familia.toLowerCase())).size,"Famílias"],[L.filter(p=>p.situacao==="Membro").length,"Membros"],[L.filter(p=>p.situacao==="Frequentador").length,"Frequentadores"],[med,"Idade média"],[L.filter(p=>p.batismo).length,"Batizados"],[L.filter(p=>p.serve.length).length,"Servindo"],[L.filter(p=>p.querMembro==="Sim").length,"Querem ser membros"],[L.filter(p=>p.interesse.length).length,"Com interesse em servir"]].map(([v,l])=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join("");
-  bars("cGen",cnt(p=>p.genero));bars("cSit",cnt(p=>p.situacao));bars("cNac",cnt(p=>p.nac));
-  bars("cAge",{...Object.fromEntries(FX.map(x=>[x,0])),...cnt(p=>p.faixa)},6,1);
-  bars("cEst",cnt(p=>p.estcivil));bars("cIng",cnt(p=>p.ingresso));bars("cSrv",cnt(p=>p.serve),9);bars("cInt",cnt(p=>p.interesse),9);
-  $("th").innerHTML="<tr>"+COLS.map(c=>`<th>${c[0]}</th>`).join("")+"</tr>";
-  $("tb").innerHTML=L.map(p=>"<tr>"+COLS.map(c=>`<td>${c[2]?c[1](p):esc(c[1](p)??"")||"—"}</td>`).join("")+"</tr>").join("");
-  $("cntr").textContent=`${L.length} de ${all.length} pessoas`;
-  $("purge").classList.toggle("hide",!antigas.length);$("oldNote").textContent=ocultas?ocultas+" versão(ões) antiga(s) de pessoas atualizadas (ocultas)":"";
-  $("empty").textContent=L.length?"":"Nenhum resultado para estes filtros.";
-}
-
 </script>
 </body>
 </html>
